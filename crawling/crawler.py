@@ -28,6 +28,34 @@ response = requests.get(URL)
 if response.status_code == 200:
     html = response.text
     soup = BeautifulSoup(html, 'html.parser')
-    print(soup)
+    a_list = soup.find_all('a')
 else:
-    print(soup)
+    print(response.status_code)
+
+
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver import ActionChains
+import time
+
+driver = webdriver.Chrome()
+time.sleep(0.3)
+
+driver.get(URL)
+time.sleep(0.3)
+
+search_input = driver.find_element(By.ID, 'query')
+search_input.send_keys('제네시스')
+time.sleep(0.3)
+
+search_input.send_keys(Keys.ENTER)
+time.sleep(0.3)
+
+news_button = driver.find_element(By.CSS_SELECTOR, '#lnb > div.lnb_group > div > div.lnb_nav_area._nav_area_root > div > div.api_flicking_wrap._conveyer_root > div:nth-child(8) > a')
+# search_input.send_keys(Keys.ENTER)
+time.sleep(0.3)
+
+ActionChains(driver).click(news_button).perform()
+time.sleep(3)
